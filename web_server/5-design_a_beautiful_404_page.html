@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 - Ceci n'est pas une page</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: Georgia, "Times New Roman", serif;
+    color: #f5f0e6;
+    background: radial-gradient(circle at 30% 20%, #3b2f63, #14112b 70%);
+    overflow: hidden;
+  }
+  .stars, .stars::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 3px;
+    background: transparent;
+    box-shadow: 120px 80px #fff, 340px 200px #fff, 560px 120px #fff,
+      780px 300px #fff, 980px 60px #fff, 1200px 240px #fff,
+      200px 420px #fff, 460px 520px #fff, 700px 460px #fff,
+      920px 560px #fff, 1100px 440px #fff, 60px 620px #fff;
+    animation: twinkle 3s infinite alternate;
+  }
+  .stars::after { top: 120px; left: 80px; animation-delay: 1.5s; }
+  @keyframes twinkle { from { opacity: .2; } to { opacity: 1; } }
+  main { position: relative; z-index: 1; padding: 2rem; }
+  .code {
+    font-size: clamp(6rem, 22vw, 14rem);
+    font-weight: bold;
+    line-height: 1;
+    background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  h1 { font-size: clamp(1.4rem, 4vw, 2.4rem); font-style: italic; margin: 1rem 0; }
+  p { opacity: .8; margin-bottom: 2rem; }
+  a {
+    display: inline-block;
+    padding: .8rem 2rem;
+    border-radius: 999px;
+    border: 2px solid #feca57;
+    color: #feca57;
+    text-decoration: none;
+    transition: all .25s;
+  }
+  a:hover { background: #feca57; color: #14112b; transform: scale(1.06); }
+</style>
+</head>
+<body>
+  <div class="stars"></div>
+  <main>
+    <div class="code">404</div>
+    <h1>Ceci n'est pas une page</h1>
+    <p>The page you are looking for has drifted off into space.</p>
+    <a href="/">Take me home</a>
+  </main>
+</body>
+</html>

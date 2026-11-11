@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Installs nginx, listens on port 80 and serves "Holberton School for the win!"
+apt-get update
+apt-get install -y nginx
+echo "Holberton School for the win!" > /var/www/html/index.nginx-debian.html
+echo "Holberton School for the win!" > /var/www/html/index.html
+service nginx start
+service nginx reload

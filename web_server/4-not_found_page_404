@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Installs nginx, adds the 301 redirect and a custom 404 page
+apt-get update
+apt-get install -y nginx
+echo "Holberton School for the win!" > /var/www/html/index.nginx-debian.html
+echo "Holberton School for the win!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+if ! grep -q "redirect_me" /etc/nginx/sites-enabled/default
+then
+sed -i '/server_name _;/a rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-enabled/default
+fi
+if ! grep -q "error_page 404" /etc/nginx/sites-enabled/default
+then
+sed -i '/server_name _;/a error_page 404 /404.html;' /etc/nginx/sites-enabled/default
+fi
+service nginx start
+service nginx reload
