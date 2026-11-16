@@ -5,9 +5,9 @@
 # Replace these with the IP addresses of your servers
 # (and make sure the names match [STUDENT_ID]-web-01 / [STUDENT_ID]-web-02)
 WEB01_NAME="web-01"
-WEB01_IP="WEB_01_IP"
+WEB01_IP="13.43.218.111"
 WEB02_NAME="web-02"
-WEB02_IP="WEB_02_IP"
+WEB02_IP="3.9.173.72"
 
 # Install HAProxy
 sudo apt-get update -y
