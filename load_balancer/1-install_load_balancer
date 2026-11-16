@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Installs and configures HAProxy on lb-01 to round-robin traffic
+# between web-01 and web-02.
+
+# Replace these with the IP addresses of your servers
+# (and make sure the names match [STUDENT_ID]-web-01 / [STUDENT_ID]-web-02)
+WEB01_NAME="web-01"
+WEB01_IP="WEB_01_IP"
+WEB02_NAME="web-02"
+WEB02_IP="WEB_02_IP"
+
+# Install HAProxy
+sudo apt-get update -y
+sudo apt-get install -y haproxy
+
+# Allow HAProxy to be managed via its init script
+sudo sed -i 's/^ENABLED=.*/ENABLED=1/' /etc/default/haproxy
+grep -q '^ENABLED=' /etc/default/haproxy || echo "ENABLED=1" | sudo tee -a /etc/default/haproxy > /dev/null
+
+# Back up the original config once
+[ -f /etc/haproxy/haproxy.cfg.orig ] || sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.orig
+
+# Remove any previous load balancer block, then append a fresh one
+sudo sed -i '/^# BEGIN load_balancer/,/^# END load_balancer/d' /etc/haproxy/haproxy.cfg
+
+sudo tee -a /etc/haproxy/haproxy.cfg > /dev/null <<EOF
+# BEGIN load_balancer
+frontend http_front
+    bind *:80
+    mode http
+    default_backend http_back
+
+backend http_back
+    mode http
+    balance roundrobin
+    server $WEB01_NAME $WEB01_IP:80 check
+    server $WEB02_NAME $WEB02_IP:80 check
+# END load_balancer
+EOF
+
+# Validate config, then enable and restart via the init script
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+sudo service haproxy restart
