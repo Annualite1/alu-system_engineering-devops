@@ -10,11 +10,11 @@ sudo apt-get install -y nginx
 # Make sure a landing page exists
 echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html > /dev/null
 
-# Add the custom header (once) inside the default server block.
+# Add the custom header (once) inside the first server block.
 # $hostname is a built-in Nginx variable holding the machine's hostname.
 CONF="/etc/nginx/sites-available/default"
 if ! grep -q "X-Served-By" "$CONF"; then
-    sudo sed -i '/server_name _;/a \\n\tadd_header X-Served-By $hostname;' "$CONF"
+    sudo sed -i '0,/server {/s//server {\n\tadd_header X-Served-By $hostname;/' "$CONF"
 fi
 
 # Validate the config, then (re)start Nginx
