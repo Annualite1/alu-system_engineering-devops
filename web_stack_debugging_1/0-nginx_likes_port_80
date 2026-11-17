@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Fixes nginx so it listens on port 80 by restoring the default site symlink and restarting it
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart
