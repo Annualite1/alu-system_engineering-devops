@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Configures Nginx to run as the nginx user and listen on all active IPs on port 8080
+
+CONF="/etc/nginx/nginx.conf"
+
+# Make the main config readable by the nginx user
+chmod 644 "$CONF"
+
+# Run the worker processes as the nginx user (uncomment/replace any existing "user" line)
+sed -i -E 's/^\s*#?\s*user\s+[^;]*;/user nginx;/' "$CONF"
+if ! grep -q '^user nginx;' "$CONF"; then
+    sed -i '1i user nginx;' "$CONF"
+fi
+
+# Listen on port 8080 (IPv4 and IPv6) instead of 80
+sed -i --follow-symlinks -E 's/listen (\[::\]:)?80([ ;])/listen \18080\2/' \
+    /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
+
+# Stop anything that could be holding the ports, then restart Nginx as the nginx user
+pkill apache2
+sudo -u nginx service nginx restart
